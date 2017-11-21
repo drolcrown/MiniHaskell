@@ -1,0 +1,16 @@
+;reload; set _root_.org.jetbrains.sbt.StructureKeys.sbtStructureOptions in Global := "download resolveClassifiers resolveSbtClassifiers" ;*/*:dumpStructureTo /tmp/sbt-structure.xml
+compile
+run
+all {file:/home/aeron/Documents/MiniHaskell/}minihaskell/products {file:/home/aeron/Documents/MiniHaskell/}minihaskell/test:products
+compile
+;reload; set _root_.org.jetbrains.sbt.StructureKeys.sbtStructureOptions in Global := "download resolveClassifiers resolveSbtClassifiers" ;*/*:dumpStructureTo /tmp/sbt-structure.xml
+all {file:/home/aeron/Documents/MiniHaskell/}minihaskell/products {file:/home/aeron/Documents/MiniHaskell/}minihaskell/test:products
+;reload; set _root_.org.jetbrains.sbt.StructureKeys.sbtStructureOptions in Global := "download resolveClassifiers resolveSbtClassifiers" ;*/*:dumpStructureTo /tmp/sbt-structure.xml
+compile
+all {file:/home/aeron/Documents/MiniHaskell/}minihaskell/products {file:/home/aeron/Documents/MiniHaskell/}minihaskell/test:products
+compile
+all {file:/home/aeron/Documents/MiniHaskell/}minihaskell/products {file:/home/aeron/Documents/MiniHaskell/}minihaskell/test:products
+run
+all {file:/home/aeron/Documents/MiniHaskell/}minihaskell/products {file:/home/aeron/Documents/MiniHaskell/}minihaskell/test:products
+;reload; set _root_.org.jetbrains.sbt.StructureKeys.sbtStructureOptions in Global := "download resolveClassifiers resolveSbtClassifiers" ;*/*:dumpStructureTo /tmp/sbt-structure.xml
+all {file:/home/aeron/Documents/MiniHaskell/}minihaskell/products {file:/home/aeron/Documents/MiniHaskell/}minihaskell/test:products

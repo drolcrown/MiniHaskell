@@ -18,9 +18,13 @@ case class ExpMult(val lhs: Expressao, val rhs:Expressao) extends Expressao {
 case class ExpDiv(val lhs: Expressao, val rhs:Expressao) extends Expressao {
   override def avaliar() : Valor = {
     val v1 = lhs.avaliar().asInstanceOf[ValorInteiro]
-    val v2 = rhs.avaliar().asInstanceOf[ValorInteiro]
 
-    return ValorInteiro(v1.valor / v2.valor)
+    if(!rhs.avaliar().equals(ValorInteiro(0))) {
+      val v2 = rhs.avaliar().asInstanceOf[ValorInteiro]
+      return ValorInteiro(v1.valor / v2.valor)
+    }else{
+      return ValorNull()
+    }
   }
 }
 
@@ -38,7 +42,7 @@ case class ExpSoma(val lhs: Expressao, val rhs:Expressao) extends Expressao {
     val v1 = lhs.avaliar().asInstanceOf[ValorInteiro]
     val v2 = rhs.avaliar().asInstanceOf[ValorInteiro]
 
-    return ValorInteiro(v1.valor - v2.valor)
+    return ValorInteiro(v1.valor + v2.valor)
   }
 }
 

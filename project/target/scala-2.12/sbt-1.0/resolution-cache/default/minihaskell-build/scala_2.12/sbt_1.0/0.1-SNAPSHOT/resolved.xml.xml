@@ -4,7 +4,7 @@
 		module="minihaskell-build"
 		revision="0.1-SNAPSHOT"
 		status="integration"
-		publication="20171121072646"
+		publication="20171121091741"
 		e:sbtVersion="1.0" e:scalaVersion="2.12"
 	>
 		<description>
