@@ -1,48 +1,55 @@
 package memoria
 
 import ast._
+import exceptions._
 
 import scala.collection.mutable
 
 object Ambiente {
 
-  val tabela = new mutable.HashMap[String, Expressao]
+  private val stack = new mutable.Stack[mutable.HashMap[String, Valor]]()
 
-  val ambienteProvisorio = new mutable.HashMap[String, Expressao]
+  private val funcoesDeclaradas = new mutable.HashMap[String, DecFuncao]
 
-  val tabelaFunc = new mutable.HashMap[String, (List[String], Expressao)]
-
-  def atualiza(variavel : String, valor : Expressao): Unit = {
-    tabela += (variavel -> valor)
+  def iniciar(): Unit = {
+    stack.clear()
+    stack.push(new mutable.HashMap[String, Valor]())
   }
 
-  def consulta(variavel : String) = {
-    if(ambienteProvisorio.contains(variavel))
-      ambienteProvisorio(variavel).avaliar()
-    else
-      tabela(variavel).avaliar()
+  def declararFuncao(decFuncao: DecFuncao): Unit = {
+    funcoesDeclaradas += (decFuncao.nome -> decFuncao)
   }
 
-  def decFuncao(nome: String, arg : List[String], corpo : Expressao) = {
-    tabelaFunc += (nome -> (arg, corpo))
-  }
+  def recuperarFuncao(nome: String) = funcoesDeclaradas(nome)
 
-  def pesquisaFuncao(nome: String): (List[String], Expressao) = {tabelaFunc(nome)}
-
-  def aplicaFuncao(nome: String, valor: List[Valor]): Valor = {
-    var listaId = pesquisaFuncao(nome)._1
-    var listaValor = valor
-    //So atribui ids que possui valores
-    while(listaValor.nonEmpty){
-      if(listaId.nonEmpty){
-        ambienteProvisorio += (listaId.head -> listaValor.head)
-        listaValor = listaValor.tail
-        listaId = listaId.tail
-      }else{
-        listaValor = listaValor.tail
-      }
+  def atualiza(variavel : String, valor :   Valor): Unit = {
+    if(stack.isEmpty) {
+      stack.push(new mutable.HashMap[String, Valor])
     }
-    pesquisaFuncao(nome)._2.avaliar()
+    stack.top += (variavel -> valor)
   }
 
+  def consulta(variavel : String) : Valor = {
+    if(!stack.isEmpty) {
+      return stack.top(variavel)
+    }
+    throw VariavelNaoDeclaradaException()
+  }
+
+  def novoAmbiente(): Unit = {
+    novoAmbiente(new mutable.HashMap[String, Valor]())
+  }
+  def novoAmbiente(ambiente: mutable.HashMap[String, Valor]): Unit = {
+    stack.push(ambiente)
+  }
+  def ambienteAtual() : mutable.HashMap[String, Valor] = {
+    if (stack.isEmpty) {
+      stack.push(new mutable.HashMap[String, Valor]())
+    }
+    return stack.top
+  }
+
+  def removeAmbiente(): Unit = {
+    stack.pop()
+  }
 }

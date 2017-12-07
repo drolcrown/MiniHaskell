@@ -1,7 +1,7 @@
 import ast._
 import org.scalatest._
 
-class Test extends FlatSpec with Matchers {
+class TestExp extends FlatSpec with Matchers {
 
   def testeExpSoma() = {
     info("Starting TestExpSoma...")
