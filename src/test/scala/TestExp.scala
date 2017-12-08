@@ -1,4 +1,5 @@
 import ast._
+import memoria.Ambiente
 import org.scalatest._
 
 class TestExp extends FlatSpec with Matchers {
@@ -87,6 +88,20 @@ class TestExp extends FlatSpec with Matchers {
       info("TestValore evaluated...")
     }
   }
+//
+//  def testeExpNomeada() = {
+//    info("Starting Exp Nomeada...")
+//    "Applying x = value(10) and y = value(10) in named application inc (x,y) = x + y" should "be evaluated to ValorInteiro(20)" in {
+//      val inc = DecFuncao("inc", List("x", "y"), ExpSoma(ExpRef("x"), ExpRef("y")))
+//      Ambiente.iniciar()
+//      Ambiente.declararFuncao(inc)
+//
+//      val app = ExpAplicacaoNomeada("inc", List(ValorInteiro(10), ValorInteiro(10)))
+//
+//      app.avaliar() should be(ValorInteiro(20))
+//      info("TestExpNomeada evaluated...")
+//    }
+//  }
 
   //Roda todos testes
   testeExpSoma()
@@ -95,4 +110,5 @@ class TestExp extends FlatSpec with Matchers {
   testeExpDiv()
   testeExpLet()
   testeValores()
+//  testeExpNomeada()
 }

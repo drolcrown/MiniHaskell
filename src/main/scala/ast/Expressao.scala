@@ -121,60 +121,37 @@ case class ExpLet(val id : String, val expNomeada : Expressao, val corpo : Expre
 }
 
 case class ExpAplicacaoNomeada(val nome: String, val argumentosAtuais : List[Expressao]) extends Expressao {
-  def verficaTipoDalista() : Tipo = {
-    val decFuncao = Ambiente.recuperarFuncao(nome)
-
-    //Verifica tipos dos argumentos
-    var cont = 0
-    for(arg <- argumentosAtuais){
-      if(decFuncao.corpo.verificaTipo == arg.verificaTipo) {
-        cont+= 1
-      }
-    }
-    if(cont == argumentosAtuais.size) {
-      decFuncao.corpo.verificaTipo
-    }else {
-      throw TipoInvalido()
-    }
-  }
-
   override def avaliar(): Valor = {
     val decFuncao = Ambiente.recuperarFuncao(nome)
     var arg1 = argumentosAtuais; var arg2 = decFuncao.argFormal
     var tam = 0
     Ambiente.novoAmbiente()
 
-    //Verifica qual a maior lista de argumentos
-    if(argumentosAtuais.size < decFuncao.argFormal.size){
-      tam = arg1.size
-    }else {
-      tam = arg2.size
-    }
-
     //Atualiza a lista de argumentos recebida
-    while(tam > 0) {
+    while(arg1.nonEmpty && arg2.nonEmpty) {
       Ambiente.atualiza(arg2.head, arg1.head.avaliar())
       arg1 = arg1.tail
       arg2 = arg2.tail
-      tam = tam - 1
     }
-    if(decFuncao.corpo.verificaTipo == verficaTipoDalista()) {
+
+    var cont = 0
+    for(arg <- argumentosAtuais){
+      if(decFuncao.corpo.verificaTipo == arg.verificaTipo) {
+        cont+= 1
+      }
+    }
+
+    if(cont == argumentosAtuais.size) {
       val res = decFuncao.corpo.avaliar()
+      Ambiente.removeAmbiente()
       return res
     }else {
       throw TipoInvalido()
     }
   }
 
-  override def verificaTipo: Tipo = {
-    if(this.avaliar().verificaTipo == verficaTipoDalista()) {
-      argumentosAtuais.head.verificaTipo
-    }
-    else {
-      TErro()
-    }
-  }
-  Ambiente.removeAmbiente()
+  override def verificaTipo: Tipo = {this.avaliar().verificaTipo}
+
 }
 
 case class ExpLambda(val id : String, val corpo: Expressao) extends Expressao {

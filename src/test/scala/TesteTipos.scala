@@ -28,7 +28,8 @@ class TesteTipos extends FlatSpec with Matchers  {
   "A let x = 10 in x + value(5) " should "be evaluated to TInt()" in {
     val val5 = ValorInteiro(5)
     val val10 = ValorInteiro(10)
-    val amb = Ambiente.atualiza("x", val10)
+    Ambiente.iniciar()
+    Ambiente.atualiza("x", val10)
 
     val let1 = new ExpLet("x", val10 , ExpSoma (ExpRef("x"), val5))
 
@@ -38,7 +39,8 @@ class TesteTipos extends FlatSpec with Matchers  {
 
   "A let x = 10 in x + value boolean true " should "be evaluated to TErro()" in {
     val val10 = ValorInteiro(10)
-    val amb = Ambiente.atualiza("x", val10)
+    Ambiente.iniciar()
+    Ambiente.atualiza("x", val10)
 
     val let1 = new ExpLet("x", val10 , ExpSoma (ExpRef("x"), ValorBooleano(true)))
 
@@ -50,7 +52,8 @@ class TesteTipos extends FlatSpec with Matchers  {
   info("Iniciando Teste de Tipos -> LAMBDA ...")
   "A lambda expression  x ->  x + value(1) " should "be evaluated to TInt()" in {
     val val1 = ValorInteiro(1)
-    val amb = Ambiente.atualiza("x", val1)
+    Ambiente.iniciar()
+    Ambiente.atualiza("x", val1)
 
     val lambda = new ExpLambda("x", ExpSoma (ExpRef("x"), val1))
 
@@ -60,7 +63,8 @@ class TesteTipos extends FlatSpec with Matchers  {
 
   "A lambda expression  x ->  x + true " should "be evaluated to TErro()" in {
     val val1 = ValorInteiro(1)
-    val amb = Ambiente.atualiza("x", val1)
+    Ambiente.iniciar()
+    Ambiente.atualiza("x", val1)
 
     val lambda = new ExpLambda("x", ExpSoma (ExpRef("x"), ValorBooleano(true)))
 
@@ -72,7 +76,8 @@ class TesteTipos extends FlatSpec with Matchers  {
   info("Iniciando Teste de Tipos -> REF ...")
   "A expression  Ref(x) in x = 1" should "be evaluated to TInt()" in {
     val val1 = ValorInteiro(1)
-    val amb = Ambiente.atualiza("x", val1)
+    Ambiente.iniciar()
+    Ambiente.atualiza("x", val1)
 
     val ref = ExpRef("x")
 
@@ -82,7 +87,8 @@ class TesteTipos extends FlatSpec with Matchers  {
 
   "A expression  Ref(x) in x = true" should "be evaluated to TBool()" in {
     val val1 = ValorBooleano(true)
-    val amb = Ambiente.atualiza("x", val1)
+    Ambiente.iniciar()
+    Ambiente.atualiza("x", val1)
 
     val ref = ExpRef("x")
 
@@ -102,6 +108,7 @@ class TesteTipos extends FlatSpec with Matchers  {
     intercept[TipoInvalido] {
       app.avaliar()
     }
+    Ambiente.removeAmbiente()
   }
 
     "A Applying x = value(10) in named application inc (x) = x + 1" should "be evaluated to TInt()" in {
@@ -112,6 +119,7 @@ class TesteTipos extends FlatSpec with Matchers  {
     val app = ExpAplicacaoNomeada("inc", List(ValorInteiro(10)))
 
     app.verificaTipo should be (TInt())
+    Ambiente.removeAmbiente()
     info("Fechando Teste de Tipos -> APLICACAO NOMEADA...")
   }
 
@@ -122,6 +130,7 @@ class TesteTipos extends FlatSpec with Matchers  {
     val appL1 = new ExpAplicacaoLambda(new ExpLambda("x", ExpSoma(ExpRef("x"), ValorInteiro(2))), ValorInteiro(10))
 
     appL1.verificaTipo should be (TInt())
+    Ambiente.removeAmbiente()
   }
 
   info("Iniciando Teste de Tipos -> APLICACAO LAMBDA ...")
@@ -131,6 +140,7 @@ class TesteTipos extends FlatSpec with Matchers  {
     val appL1 = new ExpAplicacaoLambda(new ExpLambda("x", ExpSoma(ExpRef("x"), ValorInteiro(2))), ValorBooleano(true))
 
     appL1.verificaTipo should be (TErro())
+    Ambiente.removeAmbiente()
     info("Fechando Teste de Tipos -> APLICACAO LAMBDA...")
   }
 
