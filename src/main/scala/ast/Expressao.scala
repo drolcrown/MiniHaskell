@@ -102,6 +102,12 @@ case class ExpRef(arg : String) extends Expressao {
   override def verificaTipo: Tipo = this.avaliar().verificaTipo
 }
 
+case class If(exp1 : Expressao, exp2 : Expressao, exp3 : Expressao) extends  Expressao {
+  override def avaliar() = ???
+
+  override def verificaTipo = ???
+}
+
 case class ExpLet(val id : String, val expNomeada : Expressao, val corpo : Expressao) extends Expressao {
   override def avaliar(): Valor = {
     val valor = expNomeada.avaliar() // innermost strategy
